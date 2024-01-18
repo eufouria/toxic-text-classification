@@ -1,15 +1,15 @@
 # Build Toxic Text Classification App
-![image1](image/toxic_.png)
+
+![image1](image/toxic00.png)
+
+![image2](image/nontoxic00.png)
+
 ## 1. Installment and Local Service
 
 ### 1.1 Requirements
-
 ```bash
 $ pip install -r requirements.txt
-
 ```
-
-
 ### 1.2 Docker
 
 ```bash
@@ -29,7 +29,13 @@ $ python3 client.py --save_dir toxic_classication.html --text_query your_text
 
 Utilized pretrained [DistilBERT](https://huggingface.co/transformers/v3.0.2/model_doc/distilbert.html) and incorporated two linear layers for the task of toxic text classification.
 
-I use Jigsaw Toxic Comment Classification Challenge dataset to train and evaluate model. You can find details of the dataset [here](https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/data).
+I use Jigsaw Toxic Comment Classification Challenge dataset to train and evaluate model. You can find details of the contest [here](https://www.kaggle.com/c/jigsaw-toxic-comment-classification-challenge/data).
+
+```bash
+$kaggle competitions download -c jigsaw-toxic-comment-classification-challenge -p classifier_model/data
+$unzip classifier_model/data/jigsaw-toxic-comment-classification-challenge.zip -d cl
+assifier_model/data
+```
 
 
 ### 2.1 Model Architecture
