@@ -33,8 +33,7 @@ I use Jigsaw Toxic Comment Classification Challenge dataset to train and evaluat
 
 ```bash
 $kaggle competitions download -c jigsaw-toxic-comment-classification-challenge -p classifier_model/data
-$unzip classifier_model/data/jigsaw-toxic-comment-classification-challenge.zip -d cl
-assifier_model/data
+$unzip classifier_model/data/jigsaw-toxic-comment-classification-challenge.zip -d classifier_model/data
 ```
 
 
