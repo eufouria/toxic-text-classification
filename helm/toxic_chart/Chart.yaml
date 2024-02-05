@@ -1,0 +1,18 @@
+apiVersion: v1
+name: classify-toxic-text
+description: My Helm Chart for Toxic Classifier
+
+# A chart can be `application` or `library`,
+# we don't use `library` so often
+type: application
+
+# The chart vesion, which should be changed every time
+# you make an update to the chart
+version: 0.0.1
+
+# The version number of the application being deployed
+appVersion: "0.0.1"
+
+maintainers:
+- email: khoav1371999@gmail.com
+  name: khoav1371999
