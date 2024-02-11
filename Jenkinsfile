@@ -1,5 +1,5 @@
 pipeline {
-    
+
     agent any
 
     options{
@@ -10,7 +10,7 @@ pipeline {
     }
 
     environment{
-        registry = 'khoav1371999/classify_toxic_text:0.0.1'
+        registry = 'khoav1371999/classify_toxic_text'
         registryCredential = 'dockerhub'      
     }
 
