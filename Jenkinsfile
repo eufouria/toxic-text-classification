@@ -45,7 +45,7 @@ pipeline {
                 kubernetes{
                     containerTemplate{
                         name 'helm' // name of the container to be used for hel, upgrade
-                        image 'fullstackdatascience/jenkins:lts' // the image containing helm
+                        image 'khoav1371999/jenkins-k8s:0.0.1' // the image containing helm
                         alwaysPullImage true // Always pull image in case of using the same tag
                      }
                 }
