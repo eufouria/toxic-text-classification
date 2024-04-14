@@ -43,15 +43,11 @@ pipeline {
         stage('Deploy to GKE') {
             agent{
                 kubernetes{
-                    yaml """
-                        apiVersion: v1
-                        kind: Pod
-                        spec:
-                        containers:
-                        - name: helm
-                            image: fullstackdatascience/jenkins:lts
-                            imagePullPolicy: Always
-                    """
+                    containerTemplate{
+                        name 'helm' // name of the container to be used for hel, upgrade
+                        image 'fullstackdatascience/jenkins:lts' // the image containing helm
+                        alwaysPullImage true // Always pull image in case of using the same tag
+                     }
                 }
             }
             steps{
