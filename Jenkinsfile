@@ -15,7 +15,7 @@ pipeline {
     }
 
     stages {
-        stage('Test') {
+        stage('Testing') {
             agent {
                 docker {
                     image 'python:3.11-slim' 
@@ -24,6 +24,7 @@ pipeline {
             steps {
                 echo 'Testing model correctness..'
                 sh 'pip install -r requirements.txt --no-cache-dir'
+                
             }
         }
         stage('Build Docker Image') {
@@ -42,11 +43,15 @@ pipeline {
         stage('Deploy to GKE') {
             agent{
                 kubernetes{
-                    containerTemplate{
-                        name 'helm' // name of the container to be used for hel, upgrade
-                        image 'fullstackdatascience/jenkins:lts' // the image containing helm
-                        alwaysPullImage true // Always pull image in case of using the same tag
-                     }
+                    yaml """
+                        apiVersion: v1
+                        kind: Pod
+                        spec:
+                        containers:
+                        - name: helm
+                            image: fullstackdatascience/jenkins:lts
+                            imagePullPolicy: Always
+                    """
                 }
             }
             steps{
