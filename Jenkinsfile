@@ -60,7 +60,6 @@ pipeline {
                     helm upgrade --install classify-toxic-text ./helm/toxic_chart \
                     --namespace model-serving
                     """
-                    }
                 }
             }
         }
