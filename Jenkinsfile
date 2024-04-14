@@ -52,9 +52,14 @@ pipeline {
             }
             steps{
                 script{
-                    container('helm'){
-                        sh("helm upgrade --install classify-toxic-text \
-                        ./helm/toxic_chart --namespace model-serving")
+                    // Install Helm if it is not found, and then deploy using Helm
+                    sh """
+                    helm version --short || (curl -fsSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash)
+                    helm repo add stable https://charts.helm.sh/stable
+                    helm repo update
+                    helm upgrade --install classify-toxic-text ./helm/toxic_chart \
+                    --namespace model-serving
+                    """
                     }
                 }
             }
