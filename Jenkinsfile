@@ -18,15 +18,15 @@ pipeline {
         stage('Test') {
             agent {
                 docker {
-                    image 'python:3.11' 
+                    image 'python:3.11-slim' 
                 }
             }
             steps {
                 echo 'Testing model correctness..'
-                sh 'pip install -r requirements.txt'
+                sh 'pip install -r requirements.txt --no-cache-dir'
             }
         }
-        stage('Build') {
+        stage('Build Docker Image') {
             steps {
                 script {
                     echo 'Building image for deployment..'
@@ -39,10 +39,23 @@ pipeline {
                 }
             }
         }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying models..'
-                echo 'Running a script to trigger pull and start a docker container'
+        stage('Deploy to GKE') {
+            agent{
+                kubernetes{
+                    containerTemplate{
+                        name 'helm' // name of the container to be used for hel, upgrade
+                        image 'fullstackdatascience/jenkins:lts' // the image containing helm
+                        alwaysPullImage true // Always pull image in case of using the same tag
+                     }
+                }
+            }
+            steps{
+                script{
+                    container('helm'){
+                        sh("helm upgrade --install classify-toxic-text \
+                        ./helm/toxic_chart --namespace model-serving")
+                    }
+                }
             }
         }
     }
