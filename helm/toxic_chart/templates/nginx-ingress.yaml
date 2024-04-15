@@ -8,7 +8,7 @@ metadata:
     kubernetes.io/ingress.class: "nginx" # which can be replaced by gce, gce-internal or istio
 spec:
   rules:
-  - host: 34.133.250.6.nip.io  # please refer to https://github.com/GoogleCloudPlatform/community/blob/master/archived/nginx-ingress-gke/index.md
+  - host: 34.102.7.69.nip.io  # please refer to https://github.com/GoogleCloudPlatform/community/blob/master/archived/nginx-ingress-gke/index.md
     http:
       paths:
       - path: /docs
