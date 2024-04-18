@@ -4,8 +4,8 @@
   # gather_facts: no
   become: yes  # To run commands as a superuser (e.g., sudo)
   vars:
-    default_container_name: jenkins
-    default_container_image: fullstackdatascience/jenkins:lts
+    default_container_name: jenkins-k8s
+    default_container_image: khoav1371999/jenkins-k8s:0.0.1
   tasks:
     - name: Install aptitude
       apt:
@@ -61,7 +61,3 @@
           - 8081:8080
           - 50000:50000
         detach: yes # Run the container in the background
-        ports:
-          - "8081:8080"
-          - "30000:30000"
-        detach: yes  # Run the container in the background
