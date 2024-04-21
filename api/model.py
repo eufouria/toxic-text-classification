@@ -1,7 +1,7 @@
 import torch
 from google.cloud import storage
 from classifier_model.model import BertClassifier
-from config import CONFIG
+from classifier_model.config import CONFIG
 
 class FineTunedBertClassifier:
     def __init__(self):
