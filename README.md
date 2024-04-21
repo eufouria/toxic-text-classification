@@ -8,6 +8,40 @@
 
 ![image22](image/system_architecture.png)
 
+## Table of Contents
+[Overall System Architecture](#overall-system-architecture)
+1. [Installment and Local Service](#1-installment-and-local-service)
+   - [1.1 Requirements](#11-requirements)
+   - [1.2 Docker](#12-docker)
+   - [1.3 Local Testing](#13-local-testing)
+2. [Model](#2-model)
+   - [2.1 Model Architecture](#21-model-architecture)
+   - [2.2 Model Specification](#22-model-specification)
+       - [2.2.1 Configuration](#221-configuration)
+       - [2.2.2 Train Loss](#222-train-loss)
+       - [2.2.3 Evaluation](#223-evaluation)
+3. [Manual Deployment On Google Kubernetes Engine](#3-manual-deployment-on-google-kubernetes-engine)
+   - [3.1 Nginx-Controller](#31-nginx-controller)
+   - [3.2 Deploy Toxic Text Classifier Service](#32-deploy-toxic-text-classifier-service)
+   - [3.3 GKE Monitoring with Prometheus and Grafana](#33-gke-monitoring-with-prometheus-and-grafana)
+       - [3.3.1 Create Monitoring Namespace](#331-create-monitoring-namespace)
+       - [3.3.2 Prometheus](#332-prometheus)
+       - [3.3.3 Grafana](#333-grafana)
+4. [Continuous Deployment On Google Kubernetes Engine with Jenkins](#4-continuous-deployment-on-google-kubernetes-engine-with-jenkins)
+   - [4.1 Set Up GCE instance with Ansible](#41-set-up-gce-instance-with-ansible)
+       - [4.1.1 Set up Google Cloud credentials](#411-set-up-google-cloud-credentials)
+       - [4.1.2 Set up Google Cloud Compute Engine instance and Install Docker and Jenkins](#412-set-up-google-cloud-compute-engine-instance-and-install-docker-and-jenkins)
+   - [4.2 Set Up Jenkins](#42-set-up-jenkins)
+       - [4.2.1 Jenkins UI Access](#421-jenkins-ui-access)
+       - [4.2.2 Install Jenkins Plugins](#422-install-jenkins-plugins)
+       - [4.2.3 Connect to Github repo](#423-connect-to-github-repo)
+       - [4.2.4 Set Up Jenkins Credentials](#424-set-up-jenkins-credentials)
+   - [4.3 Jenkins Pipeline](#43-jenkins-pipeline)
+
+## Overall System Architecture
+
+![image22](image/system_architecture.png)
+
 ## 1. Installment and Local Service
 
 ### 1.1 Requirements
@@ -25,7 +59,7 @@ docker run -p 8081:30000 khoav1371999/classify_toxic_text:0.0.1
 Run ```client.py``` to test local API.
 
 ```
-python3 client.py --save_dir toxic_classication.html --text_query your_text
+python3 utils/client.py --save_dir toxic_classication.html --text_query your_text
 ```
 
 ## 2. Model
@@ -56,7 +90,7 @@ unzip classifier_model/data/jigsaw-toxic-comment-classification-challenge.zip -d
 - Linear Layer 1 Learning Rate: $5*10^{-4}$
 - Linear Layer 2 Learning Rate: $1*10^{-5}$
 
-##### 2.2.2 Train Loss
+##### 2.2.2 Train Loss (average batch loss)
 
 ![image4](image/train_loss.png)
 
