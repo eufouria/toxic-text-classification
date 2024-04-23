@@ -1,0 +1,45 @@
+- name: Create Compute Engine instances
+  hosts: localhost
+  tasks:
+  - name: Bring up the gce instance
+    gcp_compute_instance:
+      name: my-gce-01
+      machine_type: e2-standard-2
+      # Refer to https://cloud.google.com/compute/docs/images/os-details#ubuntu_lts
+      # or use the command `gcloud compute images list --project=ubuntu-os-cloud`
+      zone: us-west2-b
+      project: impactful-drive-418604
+      # The service account is needed to create the resources
+      auth_kind: serviceaccount
+      service_account_file: ../secrets/impactful-drive-418604-cbaa664b92d2.json
+      disks:
+        - auto_delete: true
+          boot: true
+          initialize_params:
+            source_image: projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-v20230727
+            disk_size_gb: 200  # Specify the disk size here
+      # We use the default network with an external IP for SSH
+      network_interfaces:
+        - network:
+            selfLink: global/networks/default
+          access_configs:
+          - name: External NAT
+            type: ONE_TO_ONE_NAT
+      state: present
+
+  - name: Create inbound firewall rule for port 30000
+    gcp_compute_firewall:
+      name: allow-port-30000
+      network:
+        selfLink: global/networks/default
+      allowed:
+        - ip_protocol: TCP
+          ports:
+            - '30000'
+      source_ranges:
+        - 0.0.0.0/0  # Allow traffic from any source (use a more specific source range for security)
+      direction: INGRESS # Direction from outside to inside, EGRESS is the opposite direction
+      description: Allow incoming traffic on port 30000
+      project: impactful-drive-418604
+      auth_kind: serviceaccount
+      service_account_file: ../secrets/impactful-drive-418604-cbaa664b92d2.json

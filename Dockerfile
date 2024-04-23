@@ -1,24 +1,26 @@
-FROM python:3.11-slim AS compile-image
+# Using Python 3.11 base image
+FROM python:3.11
 
-# Define virtual env
+# Define the virtual environment path
 ENV VIRTUAL_ENV=/opt/venv
+
+# Create virtual environment
 RUN python3 -m venv $VIRTUAL_ENV
+
+# Set the virtual environment path in PATH
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-# Create a folder /app if it doesn't exist,
-# the /app folder is the current working directory
+# Set the working directory to /app
 WORKDIR /app
 
-# Copy necessary files to our app
+# Copy the current directory contents to the container at /app
 COPY . /app
 
-# Disable pip cache to shrink the image size a little bit,
-# since it does not need to be re-installed
-RUN /opt/venv/bin/pip install -r requirements.txt --no-cache-dir
-
-FROM python:3.11-alpine AS runtime-image
-
-COPY --from=compile-image /opt/venv /opt/venv
+# Install dependencies, ensuring Uvicorn is included
+RUN pip install uvicorn
+RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 30000
+
+# Command to run the Uvicorn server
 CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "30000"]

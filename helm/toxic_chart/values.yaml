@@ -1,5 +1,5 @@
 image:
   repository: khoav1371999/classify_toxic_text
-  tag: "0.0.1"
+  tag: 0.0.1
   pullPolicy: Always
   cp: 80

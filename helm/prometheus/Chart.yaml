@@ -1,0 +1,12 @@
+apiVersion: v2
+name: prometheus
+description: My Helm Chart for Prometheus monitoring for Toxic Classifier 
+
+type: application
+
+version: 0.0.1
+appVersion: "0.0.1"
+
+maintainers:
+- email: khoav1371999@gmail.com
+  name: khoav
