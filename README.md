@@ -38,10 +38,6 @@
        - [4.2.4 Set Up Jenkins Credentials](#424-set-up-jenkins-credentials)
    - [4.3 Jenkins Pipeline](#43-jenkins-pipeline)
 
-## Overall System Architecture
-
-![image22](image/system_architecture.png)
-
 ## 1. Installment and Local Service
 
 ### 1.1 Requirements
