@@ -16,7 +16,17 @@ class ClassifyToxicTextResponse(BaseModel):
 
 @app.post("/classify_text", response_model=ClassifyToxicTextResponse)
 async def classify_text(text:str):
-    inputs = tokenizer(text, max_length=512, padding='max_length', truncation=True, return_tensors='pt')
+    """
+    Classify the toxicity of the given text.
+    
+    Args:
+        text (str): The text to classify
+        
+    Returns:
+        dict: The toxic score and the label
+    """
+    inputs = tokenizer(text, max_length=512, padding='max_length', \
+                       truncation=True, return_tensors='pt')
     toxic_score = model.classifier(**inputs).item()
     is_toxic = model.score2label(toxic_score)
     logger.info(f"User: {text}")

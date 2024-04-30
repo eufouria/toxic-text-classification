@@ -3,6 +3,14 @@ from torch import nn
 from transformers import DistilBertModel
 
 class BertClassifier(nn.Module):
+    """
+    A class to represent a BERT classifier.
+
+    Attributes:
+        bert (transformers.DistilBertModel): The BERT model
+        linear1 (torch.nn.Linear): The first linear layer
+        linear2 (torch.nn.Linear): The second linear layer
+    """
     def __init__(self):
         super(BertClassifier, self).__init__()
         self.bert = DistilBertModel.from_pretrained("distilbert-base-uncased")

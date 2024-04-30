@@ -12,6 +12,15 @@ dataset = trainset['train'].train_test_split(test_size=0.1, seed=0)
 dataset = dataset.rename_column("toxic", "label")
 
 def preprocess_function(examples):
+    """
+    Preprocess the given examples.
+
+    Args:
+        examples (dict): The examples to preprocess
+        
+    Returns:
+        dict: The preprocessed examples
+    """
     return tokenizer(examples["comment_text"], max_length=512, padding=True, truncation=True)
 
 tokenized_dataset = dataset.map(preprocess_function, batched=True)

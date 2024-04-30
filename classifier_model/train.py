@@ -35,7 +35,6 @@ optimizer = optim.Adam([
 loss_function = nn.BCELoss()
 epochs = CONFIG.TRAIN_EPOCHS
 
-
 # send network to GPU
 classifier.to(device)
 train_losses, eval_losses = [], []
@@ -45,12 +44,13 @@ for epoch in range(epochs):
     for idx, batch in enumerate(train_dataloader):
         if idx % 100 == 0:
             logger.info(f"Epoch {epoch}/{epochs} Step: {idx}/{len(train_dataloader)} \
-                         Train Loss: {all_loss}")
+                         Train Loss: {all_loss}") # print loss every 100 steps
         batch_loss = 0
-        classifier.zero_grad()
-        input_ids = batch.input_ids.to(device)
-        attention_mask = batch.attention_mask.to(device)
-        label_ids = batch.labels.unsqueeze(1).float().to(device)
+        classifier.zero_grad() # zero the gradients
+        input_ids = batch.input_ids.to(device) # send input to GPU
+        attention_mask = batch.attention_mask.to(device) # send attention mask to GPU
+        label_ids = batch.labels.unsqueeze(1).float().to(device) # send labels to GPU
+
         out = classifier(input_ids, attention_mask)
         batch_loss = loss_function(out, label_ids)
         batch_loss.backward()
@@ -60,9 +60,10 @@ for epoch in range(epochs):
 
     logger.info(f"Epoch {epoch} loss: {all_loss}")
     labels, predict, predict_score = [], [], []
+    
+    # Turn off gradient for evaluation
     with torch.no_grad():
         for batch in eval_dataloader:
-
             input_ids = batch.input_ids.to(device)
             attention_mask = batch.attention_mask.to(device)
             label_ids = batch.labels.unsqueeze(1).to(device)
@@ -75,6 +76,7 @@ for epoch in range(epochs):
     logger.info(f"Epoch {epoch} AUC: {roc_auc_score(labels, predict_score)}")
     logger.info(f"Epoch {epoch} \n {classification_report(labels, predict)}")
 
-    MODEL_PATH = os.path.join(CONFIG.MODEL_FOLDER, f"tranfer_distilrobert_clf_1mil_chkpt{epoch}.pt")
+    MODEL_PATH = os.path.join(CONFIG.MODEL_FOLDER, \
+                              f"tranfer_distilrobert_clf_1mil_chkpt{epoch}.pt")
     torch.save(classifier.state_dict(), MODEL_PATH)
     logger.info(f"Model successfully saved in {MODEL_PATH}!")
